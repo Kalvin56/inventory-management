@@ -1,0 +1,2 @@
+.env
+docker-entrypoint-initdb.d/*.js
