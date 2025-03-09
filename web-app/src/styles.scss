@@ -1,1 +1,47 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.flex {
+  display: flex;
+}
+.flex-row {
+  flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.items-center {
+  align-items: center;
+}
+.items-start {
+  align-items: flex-start;
+}
+.items-end {
+  align-items: flex-end;
+}
+
+.m-0 {margin: 0px !important;}
+.p-0 {padding: 0px !important;}
+
+
+.p-4 { padding: 4px; }
+.p-8 { padding: 8px; }
+.p-16 { padding: 16px; }
+.p-32 { padding: 32px; }
+
+.px-16 { padding-left: 16px; padding-right: 16px; }
+.py-16 { padding-top: 16px; padding-bottom: 16px; }
+
+.g-4 { gap: 4px; }
+.g-8 { gap: 8px; }
+.g-16 { gap: 16px; }
+.g-32 { gap: 32px; }

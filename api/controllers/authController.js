@@ -3,15 +3,28 @@ const router = express.Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { check, validationResult } = require('express-validator');
 
-// Register Route
-router.post('/register', async (req, res) => {
+const validateRegister = [
+  check('name', 'Name is required and must not exceed 8 characters')
+    .not().isEmpty()
+    .isLength({ max: 8 }),
+  check('email', 'Please include a valid email').isEmail(),
+  check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+];
+
+router.post('/register', validateRegister, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message : errors.array()[0].msg});
+  }
+
   const { name, email, password } = req.body;
 
   try {
     let user = await User.findOne({ email });
     if (user) {
-      return res.status(400).json({ msg: 'User already exists' });
+      return res.status(400).json({ message: 'User already exists' });
     }
 
     user = new User({ name, email, password });
@@ -21,11 +34,21 @@ router.post('/register', async (req, res) => {
 
     await user.save();
 
-    const payload = { user: { id: user.id, role: user.role } };
+    const payload = { user: { id: user.id, roles: user.roles } };
 
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.status(201).json({
+        data : {
+          user : {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            roles: user.roles,
+          },
+          token
+        }
+      });
     });
   } catch (err) {
     console.error(err.message);
@@ -33,26 +56,45 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login Route
-router.post('/login', async (req, res) => {
+const validateLogin = [
+  check('email', 'Please include a valid email').isEmail(),
+  check('password', 'Password is required').exists(),
+];
+
+router.post('/login', validateLogin, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ message : errors.array()[0].msg});
+  }
+
   const { email, password } = req.body;
 
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: 'Invalid credentials' });
+      return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    const payload = { user: { id: user.id, role: user.role } };
+    const payload = { user: { id: user.id, roles: user.roles } };
 
     jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '1h' }, (err, token) => {
       if (err) throw err;
-      res.json({ token });
+      res.json({ 
+        data : {
+          user : {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            roles: user.roles,
+          },
+          token
+        }
+      });
     });
   } catch (err) {
     console.error(err.message);
