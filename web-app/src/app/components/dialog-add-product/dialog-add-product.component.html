@@ -1,0 +1,10 @@
+<mat-toolbar color="primary" class="dialog-toolbar">
+  <h1>Ajouter un produit</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-dialog-content>
+  <app-product-form (formSubmitted)="onFormSubmitted($event)"></app-product-form>
+</mat-dialog-content>

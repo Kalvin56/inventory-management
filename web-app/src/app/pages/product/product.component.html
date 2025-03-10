@@ -1,1 +1,11 @@
-<p>product works!</p>
+<div class="product-list-container">
+  <div class="header-section">
+    <button mat-raised-button color="primary" (click)="openFormDialog()">
+      <mat-icon>add</mat-icon> Ajouter un produit
+    </button>
+  </div>
+  <div class="table-section">
+    <app-product-list></app-product-list>
+  </div>
+</div>
+

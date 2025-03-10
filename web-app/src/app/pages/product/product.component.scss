@@ -1,0 +1,14 @@
+.product-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.table-section {
+  width: 100%;
+}

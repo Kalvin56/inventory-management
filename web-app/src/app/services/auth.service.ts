@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthService {
-
   private baseUrl = environment.apiUrl;
 
   constructor(
