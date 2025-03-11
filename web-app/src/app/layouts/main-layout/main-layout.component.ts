@@ -23,7 +23,7 @@ export class MainLayoutComponent implements OnDestroy {
   user$: Observable<any>;
 
   navItems: NavItem[] = [
-    { title: 'Produits', route: '/products' },
+    { title: 'Products', route: '/products' },
   ];
 
   constructor(

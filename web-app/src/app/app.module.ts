@@ -24,6 +24,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 // Components
 import { LoginComponent } from './pages/login/login.component';
@@ -33,11 +35,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { ProductComponent } from './pages/product/product.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { ProductListComponent } from './components/product-list/product-list.component';
-import { ProductFormComponent } from './components/product-form/product-form.component';
-import { DialogAddProductComponent } from './components/dialog-add-product/dialog-add-product.component';
+import { ProductListComponent } from './components/product/product-list/product-list.component';
+import { ProductFormComponent } from './components/product/product-form/product-form.component';
+import { DialogAddProductComponent } from './components/dialog/dialog-add-product/dialog-add-product.component';
 import { AuthInterceptor } from './interceptor/auth.interceptor';
 import { ProductEffects } from './store/effects/product.effect';
+import { DialogConfirmComponent } from './components/dialog/dialog-confirm/dialog-confirm.component';
+import { ProductEditFormComponent } from './components/product/product-edit-form/product-edit-form.component';
+import { DialogEditProductComponent } from './components/dialog/dialog-edit-product/dialog-edit-product.component';
+import { QuantityControlComponent } from './components/shared/quantity-control/quantity-control.component';
 
 @NgModule({
   declarations: [
@@ -48,9 +54,13 @@ import { ProductEffects } from './store/effects/product.effect';
     NotFoundComponent,
     ProductComponent,
     RegisterComponent,
-    ProductListComponent,
+    ProductListComponent, 
     ProductFormComponent,
-    DialogAddProductComponent
+    DialogAddProductComponent,
+    DialogConfirmComponent,
+    ProductEditFormComponent,
+    DialogEditProductComponent,
+    QuantityControlComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +85,9 @@ import { ProductEffects } from './store/effects/product.effect';
     MatListModule,
     MatTableModule,
     MatPaginatorModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatChipsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

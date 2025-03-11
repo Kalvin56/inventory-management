@@ -1,7 +1,12 @@
 <div class="product-list-container">
   <div class="header-section">
-    <button mat-raised-button color="primary" (click)="openFormDialog()">
-      <mat-icon>add</mat-icon> Ajouter un produit
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="openFormDialog()"
+      [disabled]="!isAdmin"
+    >
+      <mat-icon>add</mat-icon> Product
     </button>
   </div>
   <div class="table-section">

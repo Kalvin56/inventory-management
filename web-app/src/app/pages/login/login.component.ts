@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const loginFailureSubscription = this.actions$.pipe(
       ofType(AuthActions.loginFailure),
       tap(({ error }) => {
-        this.snackbarService.showMessage(error.error?.message ?? 'Une erreur est survenue', 'error');
+        this.snackbarService.showMessage(error.error?.message ?? 'An error occured', 'error');
       })
     ).subscribe();
 

@@ -19,11 +19,23 @@
   </mat-form-field>
 
   <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <mat-select formControlName="category">
+      <mat-option *ngFor="let category of categories" [value]="category.title">
+        <mat-icon>{{ category.icon }}</mat-icon>
+        {{ category.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
     <mat-label>Description</mat-label>
     <textarea matInput formControlName="description"></textarea>
   </mat-form-field>
 
+  <app-quantity-control [parentForm]="productForm"></app-quantity-control>
+
   <button mat-raised-button color="primary" type="submit" [disabled]="productForm.invalid">
-    Add Product
+    Update Product
   </button>
 </form>

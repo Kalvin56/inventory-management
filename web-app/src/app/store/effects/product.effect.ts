@@ -18,8 +18,8 @@ export class ProductEffects {
       switchMap(({ pageIndex, pageSize }) =>
         this.productService.getProducts(pageIndex, pageSize).pipe(
           map((data) => ProductActions.loadProductsSuccess({
-            products: data.products,
-            totalItems: data.totalItems,
+            products: data.data.products,
+            totalItems: data.data.totalItems,
           })),
           catchError((error) => of(ProductActions.loadProductsFailure({ error })))
         )

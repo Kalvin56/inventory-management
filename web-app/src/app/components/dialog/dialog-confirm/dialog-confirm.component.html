@@ -1,0 +1,14 @@
+<mat-toolbar color="primary" class="dialog-toolbar">
+  <h1>{{ title }}</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button (click)="onClose()">
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+<div mat-dialog-content>
+  <p>{{ message }}</p>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" (click)="confirm()">Confirm</button>
+</mat-dialog-actions>

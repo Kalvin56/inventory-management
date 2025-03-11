@@ -1,4 +1,3 @@
-// dialog-add-product.component.ts
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 

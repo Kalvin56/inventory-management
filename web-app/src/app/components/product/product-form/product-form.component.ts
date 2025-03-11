@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnDestroy, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { CATEGORIES } from 'src/app/const';
 import { ProductService } from 'src/app/services/product.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { AppState } from 'src/app/store';
@@ -18,6 +19,7 @@ export class ProductFormComponent implements OnDestroy {
   productForm: FormGroup;
   subscriptions: Subscription[] = [];
   pageSize = 10;
+  categories = CATEGORIES;
 
   constructor(
     private store: Store<AppState>,
@@ -28,6 +30,8 @@ export class ProductFormComponent implements OnDestroy {
     this.productForm = this.fb.group({
       name: ['', [Validators.required]],
       price: ['', [Validators.required, Validators.min(0)]],
+      category: ['', [Validators.required]],
+      quantity: [0, [Validators.required, Validators.min(0)]],
       description: ['']
     });
 
@@ -52,12 +56,12 @@ export class ProductFormComponent implements OnDestroy {
       const product = this.productForm.value;
       this.productService.createProduct(product).subscribe({
         next: () => {
-          this.snackbarService.showMessage('Produit créé avec succès', 'success');
+          this.snackbarService.showMessage('Product created successfully', 'success');
           this.loadProducts(1, this.pageSize);
           this.formSubmitted.emit(true);
         },
         error: (error) => {
-          this.snackbarService.showMessage(error.error?.message ?? 'Une erreur est survenue', 'error');
+          this.snackbarService.showMessage(error.error?.message ?? 'An error occured', 'error');
           console.error(error);
         }
       });

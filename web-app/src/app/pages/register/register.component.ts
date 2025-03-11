@@ -41,7 +41,7 @@ export class RegisterComponent implements OnInit {
       ofType(AuthActions.registerFailure),
       tap(({ error }) => {
         console.log(error)
-        this.snackbarService.showMessage(error.error?.message ?? 'Une erreur est survenue', 'error');
+        this.snackbarService.showMessage(error.error?.message ?? 'An error occured', 'error');
       })
     ).subscribe();
 

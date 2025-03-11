@@ -1,0 +1,12 @@
+<div class="quantity-control" [formGroup]="parentForm">
+  <label class="quantity-label">Quantity</label>
+  <div class="quantity-buttons">
+    <button mat-icon-button type="button" (click)="decrementQuantity()">
+      <mat-icon>remove</mat-icon>
+    </button>
+    <input matInput formControlName="quantity" type="number" readonly class="quantity-input">
+    <button mat-icon-button type="button" (click)="incrementQuantity()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
