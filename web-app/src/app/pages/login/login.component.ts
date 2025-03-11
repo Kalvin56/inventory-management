@@ -34,6 +34,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
 
     this.isLoggedIn$ = this.store.select(isLoggedIn);
+
+    const isLoggedInSubscription = this.isLoggedIn$.subscribe(isLoggedIn => {
+      if (isLoggedIn) {
+        this.router.navigate(['/products']);
+      }
+    });
+
+    this.subscriptions.push(isLoggedInSubscription);
   }
 
   ngOnInit() {
@@ -55,14 +63,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.loginForm.valid) {
       const credentials = this.loginForm.value;
       this.store.dispatch(login({ credentials }));
-
-      const isLoggedInSubscription = this.isLoggedIn$.subscribe(isLoggedIn => {
-        if (isLoggedIn) {
-          this.router.navigate(['/products']);
-        }
-      });
-
-      this.subscriptions.push(isLoggedInSubscription);
     }
   }
 }

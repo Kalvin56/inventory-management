@@ -1,34 +1,69 @@
-.example-container {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.example-is-mobile .example-toolbar {
-  position: fixed;
+mat-toolbar{
+  position:fixed;
+  top:0;
   z-index: 2;
 }
 
-h1.example-app-name {
-  margin-left: 8px;
+mat-sidenav-container {
+  height:100%;
 }
 
-.example-sidenav-container {
-  flex: 1;
+// Move the content down so that it won't be hidden by the toolbar
+mat-sidenav {
+  padding-top: 3.5rem;
+  transition: width 0.3s ease;
+  @media screen and (min-width: 600px) {
+    padding-top: 4rem;
+  }
+
+  .entry{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding:0.75rem;
+  }
+
 }
 
-.example-is-mobile .example-sidenav-container {
-  flex: 1 0 auto;
+// Move the content down so that it won't be hidden by the toolbar
+mat-sidenav-content{
+  padding-top: 3.5rem;
+  @media screen and (min-width: 600px) {
+      padding-top: 4rem;
+  }
 }
 
-.example-spacer {
-  flex: 1 1 auto;
+.expanded {
+  width: 250px;   
 }
 
-.active-link {
-  background-color: rgba(0, 0, 0, 0.04);
+.main-content{
+  padding: 16px;
+}
+
+.user-section{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin: 8px 0px;
+}
+
+.mat-mdc-nav-list{
+  padding: 4px;
+}
+
+.mat-mdc-nav-list .mat-mdc-list-item {
+  border-radius: 20px;
+  padding: 10px;
+  margin: 5px 0;
+  transition: background-color 0.3s;
+}
+
+.mat-mdc-nav-list .mat-mdc-list-item.active {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.mat-mdc-nav-list .mat-mdc-list-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }

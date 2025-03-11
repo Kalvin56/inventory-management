@@ -1,14 +1,18 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { AppState } from 'src/app/store';
 import { selectUser } from 'src/app/store/selectors/auth.selector';
 
 interface NavItem {
   title: string;
   route: string;
+  icon: string;
+  active: boolean;
 }
 
 @Component({
@@ -16,30 +20,64 @@ interface NavItem {
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss']
 })
-export class MainLayoutComponent implements OnDestroy {
+export class MainLayoutComponent implements OnInit {
 
-  mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
-  user$: Observable<any>;
+  @ViewChild(MatSidenav)
+  sidenav!: MatSidenav;
+  isMobile= true;
+  isCollapsed = true;
+  user: User | null = null;
 
-  navItems: NavItem[] = [
-    { title: 'Products', route: '/products' },
+  navList: NavItem[] = [
+    { title: 'Products', route: '/products', icon: 'inventory_2', active: false },
   ];
 
   constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
-    private store: Store<AppState>,
+    private observer: BreakpointObserver,
+    private router: Router,
+    private store: Store,
     private authService: AuthService
   ) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-    this.user$ = this.store.select(selectUser);
+    this.store.select(selectUser).subscribe(user => {
+      this.user = user
+    })
   }
 
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
+  ngOnInit() {
+    this.observer.observe(['(max-width: 800px)']).subscribe((screenSize) => {
+      if(screenSize.matches){
+        this.isMobile = true;
+      } else {
+        this.isMobile = false;
+      }
+    });
+
+    // S'abonner aux changements de route
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.updateActiveRoute();
+    });
+
+    // Mettre à jour l'état actif lors du chargement initial
+    this.updateActiveRoute();
+  }
+
+  toggleMenu() {
+    if(this.isMobile){
+      this.sidenav.toggle();
+      this.isCollapsed = false;
+    } else {
+      this.sidenav.open();
+      this.isCollapsed = !this.isCollapsed;
+    }
+  }
+
+  updateActiveRoute() {
+    const currentRoute = this.router.url;
+    this.navList.forEach(item => {
+      item.active = currentRoute === item.route;
+    });
   }
 
   logout() {
