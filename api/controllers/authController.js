@@ -3,16 +3,16 @@ const router = express.Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const { check, validationResult } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 
 
 // Validation rules for register
 const validateRegister = [
-  check('name', 'Name is required and must not exceed 8 characters')
+  body('name', 'Name is required and must not exceed 8 characters')
     .not().isEmpty()
     .isLength({ max: 8 }),
-  check('email', 'Please include a valid email').isEmail(),
-  check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+  body('email', 'Please include a valid email').isEmail(),
+  body('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
 ];
 
 /**
@@ -67,8 +67,8 @@ router.post('/register', validateRegister, async (req, res) => {
 
 // Validation rules for login
 const validateLogin = [
-  check('email', 'Please include a valid email').isEmail(),
-  check('password', 'Password is required').exists(),
+  body('email', 'Please include a valid email').isEmail(),
+  body('password', 'Password is required').notEmpty(),
 ];
 
 /**

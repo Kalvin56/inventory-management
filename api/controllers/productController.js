@@ -12,7 +12,7 @@ const { CATEGORIES } = require('../const');
  * @desc Fetch paginated products
  * @access Public
  */
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
 
   try {
@@ -40,7 +40,7 @@ router.get('/', async (req, res) => {
  * @desc Fetch a product by ID
  * @access Public
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
 
