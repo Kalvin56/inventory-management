@@ -13,26 +13,26 @@ export class AuthInterceptor implements HttpInterceptor {
   constructor(private authService: AuthService, private router: Router) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Vérifie si l'URL doit être exclue
+    // Check if the URL should be excluded
     if (this.excludedUrls.some(url => req.url.includes(url))) {
       return next.handle(req);
     }
 
-    // Récupère le token JWT du localStorage
+    // Retrieve the JWT token from localStorage
     const token = this.authService.getToken();
 
-    // Clone la requête et ajoute l'en-tête d'autorisation si le token est présent
+    // Clone the request and add the authorization header if the token is present
     const clonedRequest = req.clone({
       setHeaders: {
         Authorization: token ? `Bearer ${token}` : ''
       }
     });
 
-    // Passe la requête clonée au gestionnaire HTTP
+    // Pass the cloned request to the HTTP handler
     return next.handle(clonedRequest).pipe(
       catchError((error: HttpErrorResponse) => {
-        // Si une 401 : on déconnecte
-        // todo : système de refresh token
+        // If a 401 error occurs: log out the user
+        // todo: implement refresh token system
         if (error.status === 401) {
           this.authService.logout();
         }

@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter, Observable } from 'rxjs';
+import { filter } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { selectUser } from 'src/app/store/selectors/auth.selector';
@@ -52,14 +52,14 @@ export class MainLayoutComponent implements OnInit {
       }
     });
 
-    // S'abonner aux changements de route
+    // Subscribe to route changes
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
       this.updateActiveRoute();
     });
 
-    // Mettre à jour l'état actif lors du chargement initial
+    // Update the active state on initial load
     this.updateActiveRoute();
   }
 
