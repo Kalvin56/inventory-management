@@ -44,3 +44,9 @@ node createAdmin.js ${password}
 cd api
 npm test
 ```
+
+### 🏭 Running in Production Mode
+```bash
+docker compose -f compose.prod.yml up -d
+```
+**Note:** For a complete production setup, you should add a domain name and configure SSL to secure your application.

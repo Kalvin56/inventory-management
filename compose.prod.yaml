@@ -1,0 +1,63 @@
+services:
+  mongo:
+    container_name: beezeelinx-db
+    restart: unless-stopped
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    volumes:
+      - ./docker-entrypoint-initdb.d/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - data_mongodb:/data/db
+    networks:
+      - bdd-net
+
+  api:
+    container_name: beezeelinx-api
+    build:
+      context: ./api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - mongo
+    networks:
+      - app-net
+      - bdd-net
+
+  web:
+    container_name: beezeelinx-web
+    build:
+      context: ./web-app
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+    depends_on:
+      - api
+    networks:
+      - app-net
+
+  nginx:
+    container_name: beezeelinx-nginx
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
+      - api
+    networks:
+      - app-net
+
+volumes:
+  data_mongodb:
+
+networks:
+  app-net:
+  bdd-net:
