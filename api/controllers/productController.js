@@ -8,9 +8,49 @@ const { body, validationResult } = require('express-validator');
 const { CATEGORIES } = require('../const');
 
 /**
- * @route GET /
- * @desc Fetch paginated products
- * @access Public
+ * @swagger
+ * /api/products:
+ *   get:
+ *     summary: Fetch paginated products
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: page
+ *         schema:
+ *           type: integer
+ *           default: 1
+ *         description: Page number
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 10
+ *         description: Number of items per page
+ *     responses:
+ *       200:
+ *         description: A list of products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     products:
+ *                       type: array
+ *                       items:
+ *                         $ref: '#/components/schemas/Product'
+ *                     totalPages:
+ *                       type: integer
+ *                     currentPage:
+ *                       type: integer
+ *                     totalItems:
+ *                       type: integer
+ *                     limit:
+ *                       type: integer
  */
 router.get('/', auth, async (req, res) => {
   const { page = 1, limit = 10 } = req.query;
@@ -36,9 +76,33 @@ router.get('/', auth, async (req, res) => {
 });
 
 /**
- * @route GET /:id
- * @desc Fetch a product by ID
- * @access Public
+ * @swagger
+ * /api/products/{id}:
+ *   get:
+ *     summary: Fetch a product by ID
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The product ID
+ *     responses:
+ *       200:
+ *         description: The product details
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     product:
+ *                       $ref: '#/components/schemas/Product'
  */
 router.get('/:id', auth, async (req, res) => {
   try {
@@ -76,9 +140,32 @@ const validateProductInput = [
 ];
 
 /**
- * @route POST /
- * @desc Create a new product
- * @access Admin only
+ * @swagger
+ * /api/products:
+ *   post:
+ *     summary: Create a new product
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Product'
+ *     responses:
+ *       201:
+ *         description: The created product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     product:
+ *                       $ref: '#/components/schemas/Product'
  */
 router.post('/', [auth, role(['admin']), validateProductInput], async (req, res) => {
   const errors = validationResult(req);
@@ -113,9 +200,62 @@ const validateProductUpdate = [
 ];
 
 /**
- * @route PUT /:id
- * @desc Update a product
- * @access Admin only
+ * @swagger
+ * /api/products/{id}:
+ *   put:
+ *     summary: Update a product
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The product ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Laptop"
+ *                 description: "Name of the product"
+ *               price:
+ *                 type: number
+ *                 example: 800
+ *                 description: "Price of the product"
+ *               description:
+ *                 type: string
+ *                 example: "A high-end gaming laptop"
+ *                 description: "Optional product description"
+ *               category:
+ *                 type: string
+ *                 enum: ["Electronics", "Clothing", "Home", "Other"]
+ *                 example: "Electronics"
+ *                 description: "Category of the product"
+ *               quantity:
+ *                 type: integer
+ *                 minimum: 0
+ *                 example: 10
+ *                 description: "Available quantity of the product"
+ *     responses:
+ *       200:
+ *         description: The updated product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     product:
+ *                       $ref: '#/components/schemas/Product'
  */
 router.put('/:id', [auth, role(['admin']), validateProductUpdate], async (req, res) => {
   const errors = validationResult(req);
@@ -150,9 +290,35 @@ router.put('/:id', [auth, role(['admin']), validateProductUpdate], async (req, r
 });
 
 /**
- * @route DELETE /:id
- * @desc Delete a product
- * @access Admin only
+ * @swagger
+ * /api/products/{id}:
+ *   delete:
+ *     summary: Delete a product
+ *     tags: [Products]
+ *     security:
+ *       - BearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The product ID
+ *     responses:
+ *       200:
+ *         description: The deleted product
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     deletedProduct:
+ *                       $ref: '#/components/schemas/Product'
  */
 router.delete('/:id', [auth, role(['admin'])], async (req, res) => {
   try {

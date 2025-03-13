@@ -16,9 +16,51 @@ const validateRegister = [
 ];
 
 /**
- * @route POST /register
- * @desc Register a new user
- * @access Public
+ * @swagger
+ * /api/auth/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 maxLength: 8
+ *                 example: "JohnDoe"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "johndoe@example.com"
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 minLength: 6
+ *                 example: "mypassword"
+ *     responses:
+ *       201:
+ *         description: User successfully registered
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     user:
+ *                       $ref: '#/components/schemas/User'
+ *                     token:
+ *                       type: string
+ *                       example: "eyJhbGciOiJIUzI1NiIsInR..."
  */
 router.post('/register', validateRegister, async (req, res) => {
   const errors = validationResult(req);
@@ -72,9 +114,45 @@ const validateLogin = [
 ];
 
 /**
- * @route POST /login
- * @desc Authenticate user & get token
- * @access Public
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     summary: Authenticate user & get token
+ *     tags: [Auth]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - email
+ *               - password
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "johndoe@example.com"
+ *               password:
+ *                 type: string
+ *                 format: password
+ *                 example: "mypassword"
+ *     responses:
+ *       201:
+ *         description: User authenticated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     user:
+ *                       $ref: '#/components/schemas/User'
+ *                     token:
+ *                       type: string
+ *                       example: "eyJhbGciOiJIUzI1NiIsInR..."
  */
 router.post('/login', validateLogin, async (req, res) => {
   const errors = validationResult(req);

@@ -9,6 +9,14 @@ Beezeelinx is a **full-stack inventory management web application** built with *
 - ✅ **Secure REST API** with user role-based access control.  
 - ✅ **MongoDB Database** for data persistence.  
 
+## 📖 API Documentation  
+
+Using **Swagger** to document and test its endpoints.  
+
+### 📜 Access the Swagger Documentation  
+Once the backend is running, access the interactive documentation via:  
+🔗 [`http://localhost:3000/api-docs`](http://localhost:3000/api-docs)
+
 ## 🚀 Installation & Setup  
 
 ### 📄 Environment Variables  
