@@ -31,7 +31,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { LoginComponent } from './pages/login/login.component';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ProductComponent } from './pages/product/product.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
