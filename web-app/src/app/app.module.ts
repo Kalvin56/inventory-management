@@ -43,7 +43,7 @@ import { ProductEffects } from './store/effects/product.effect';
 import { DialogConfirmComponent } from './components/dialog/dialog-confirm/dialog-confirm.component';
 import { ProductEditFormComponent } from './components/product/product-edit-form/product-edit-form.component';
 import { DialogEditProductComponent } from './components/dialog/dialog-edit-product/dialog-edit-product.component';
-import { QuantityControlComponent } from './quantity-control/quantity-control.component';
+import { QuantityControlComponent } from './components/shared/quantity-control/quantity-control.component';
 
 @NgModule({
   declarations: [
