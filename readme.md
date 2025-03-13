@@ -1,7 +1,7 @@
 # 🌆 Beezeelinx – Inventory Management Web App
 
 ## 📌 Description  
-Beezeelinx is a **full-stack inventory management web application** built with **Angular 16** for the frontend and **Node.js** for the backend. It interacts with a **MongoDB** database through **secure REST APIs**.
+**Inventory management web application** built with **Angular 16** for the frontend and **Node.js** for the backend. It interacts with a **MongoDB** database through **secure REST APIs**.
 
 ### ✨ Key Features  
 - ✅ **Product Management**: Create, update, and delete products.  
